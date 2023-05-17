@@ -1,0 +1,104 @@
+app-id: com.github.egdoc.GoSign
+runtime: org.freedesktop.Sdk
+runtime-version: '22.08'
+sdk: org.freedesktop.Sdk
+command: gosigndesktop
+finish-args:
+  - --share=ipc
+  - --socket=x11
+  - --socket=pulseaudio
+  - --socket=pcsc
+  - --device=all
+  - --socket=wayland
+  - --share=network
+  - --filesystem=home
+  - --talk-name=org.freedesktop.secrets
+  - --talk-name=org.freedesktop.Flatpak
+  - --talk-name=org.freedesktop.Notifications
+  - --talk-name=org.freedesktop.portal.Background
+  - --talk-name=com.canonical.AppMenu.Registrar
+  - --talk-name=com.canonical.Indicator.application
+  - --talk-name=org.gnome.Mutter.IdleMonitor
+  - --talk-name=org.ayatana.indicator.application
+  - --env=LD_LIBRARY_PATH=/app/lib
+base: org.electronjs.Electron2.BaseApp
+base-version: '22.08'
+
+modules:
+  - shared-modules/libusb/libusb.json
+  - shared-modules/libsecret/libsecret.json
+
+  - name: pcsc-lite
+    config-opts:
+      - --disable-libudev
+      - --disable-libsystemd
+      - --without-systemdsystemunitdir
+      - --disable-serial
+      - --disable-usb
+      - --disable-documentation
+    cleanup:
+      - '/include'
+      - '/bin/pcsc-spy'
+      - '/lib/libpcscspy*'
+      - '/lib/pkg-config'
+      - '/share/doc'
+      - '/share/man'
+    post-install:
+      - rm /app/sbin/pcscd
+      - rmdir /app/sbin || true
+    sources:
+      - type: archive
+        url: https://pcsclite.apdu.fr/files/pcsc-lite-1.9.5.tar.bz2
+        sha256: 9ee3f9b333537562177893559ad4f7b8d5c23ebe828eef53056c02db14049d08
+
+  - name: libbz
+    buildsystem: simple
+    build-commands:
+      - make -f Makefile-libbz2_so
+      - cp libbz2.so.1.0 /app/lib
+    sources:
+      - type: git
+        url: https://gitlab.com/bzip2/bzip2
+        tag: bzip2-1.0.8
+        commit: 6a8690fc8d26c815e798c588f796eabe9d684cf0
+
+  - name: gosign
+    buildsystem: simple
+    build-commands:
+      - install -D apply_extra -t /app/bin
+      - install -D gosigndesktop.sh /app/bin/gosigndesktop
+      - install -Dm644 com.github.egdoc.GoSign.desktop -t /app/share/applications
+      - install -Dm644 com.github.egdoc.GoSign.xml -t /app/share/metainfo
+      - cp /usr/bin/ar /app/bin
+      - "ARCH_TRIPLE=$(gcc --print-multiarch) && cp /usr/lib/${ARCH_TRIPLE}/libbfd-*.so /app/lib"
+    sources:
+      - type: script
+        dest-filename: apply_extra
+        commands:
+          - ar x Gosign-Desktop-installer-linux.deb
+          - tar xf data.tar.xz
+          - rm -r Gosign-Desktop-installer-linux.deb control.tar.xz data.tar.xz debian-binary
+          - mv usr/* .
+          - rmdir usr
+          - mkdir -p export/share/icons/hicolor/96x96/apps
+          - install -p -Dm644 "share/pixmaps/gosigndesktop.png" "export/share/icons/hicolor/96x96/apps/com.github.egdoc.GoSign.png"
+
+      - type: file
+        path: gosigndesktop.sh
+      - type: file
+        path: com.github.egdoc.GoSign.xml
+      - type: file
+        path: com.github.egdoc.GoSign.desktop
+
+      - type: extra-data
+        filename: Gosign-Desktop-installer-linux.deb
+        only-arches: [x86_64]
+        url: https://rinnovofirma.infocert.it/gosign/download/linux/latest
+        sha256: 44d4f731c84c3195e34eb3ce4cc6fb1ee8666cbc1de6bc87e764a07aaf7de458
+        size: 81906900
+        x-checker-data:
+          type: debian-repo
+          package-name: Gosign-Desktop-installer-linux
+          root: https://rinnovofirma.infocert.it/gosign/download/linux
+          dist: stable
+          component: main

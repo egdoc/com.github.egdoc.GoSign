@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=GoSign Desktop
+Comment=Tool di firma e rinnovo online per i certificati digitali emessi da InfoCert S.p.A.
+GenericName=GoSign Desktop
+StartupWMClass=com.github.egdoc.GoSign Desktop
+Exec=/app/bin/gosigndesktop %U
+Icon=com.github.egdoc.GoSign
+Type=Application
+StartupNotify=true
+Categories=Utility;
+MimeType=x-scheme-handler/diker;
+

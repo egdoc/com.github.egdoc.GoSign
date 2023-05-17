@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop">
+  <id>com.github.egdoc.GoSign</id>
+  <name>GoSign Desktop</name>
+  <developer_name>InfoCert S.p.a</developer_name>
+  <summary>Tool di firma e rinnovo online per i certificati digitali emessi da InfoCert S.p.A.</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary</project_license>
+  <url type="homepage">https://www.infocert.it</url>
+  <description>
+  <p>Tool di firma e rinnovo online per i certificati digitali emessi da InfoCert S.p.A.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://www.infocert.it/content/uploads/2023/02/pillola_GoSign_Desktop.jpg</image>
+    </screenshot>
+  </screenshots>
+  <categories>
+    <category>Application</category>
+    <category>Utils</category>
+  </categories>
+  <releases>
+    <release version="1.3.9" date="2023-05-16"/>
+  </releases>
+</component>
