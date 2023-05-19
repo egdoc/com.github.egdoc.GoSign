@@ -10,11 +10,11 @@ is only distributed as a [deb](https://rinnovofirma.infocert.it/gosign/download/
 To build and install the flatpak:
 
 ```bash
-$ flatpak-builder --user --install --install-deps-from=flathub build-dir com.github.egdoc.GoSign --force-clean
+flatpak-builder --user --install --install-deps-from=flathub build-dir com.github.egdoc.GoSign.yml --force-clean
 ```
 
 To run the application you can use the desktop launcher or run:
 
 ```bash
-$ flatpak run com.github.egdoc.GoSign
+flatpak run com.github.egdoc.GoSign.yml
 ```
