@@ -16,7 +16,7 @@ readonly UDEV_RULES_DIR="/etc/udev/rules.d/"
 readonly UDEV_RULE="99-com.github.egdoc.gosign-hidkey.rules"
 readonly FLATHUB_REF="https://flathub.org/repo/flathub.flatpakrepo"
 
-REPOSITORY="$(dirname "$(realpath ${0})")";
+REPOSITORY="$(dirname "$(realpath ${0})")"
 readonly REPOSITORY
 
 UNINSTALL=0
