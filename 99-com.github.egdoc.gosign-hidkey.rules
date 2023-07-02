@@ -1,0 +1,9 @@
+#
+# HID rules
+#
+SUBSYSTEM=="usb", ATTRS{idVendor}=="072f", ATTRS{idProduct}=="100d", MODE="0666"
+KERNEL=="hidraw*", ATTRS{idVendor}=="072f", ATTRS{idProduct}=="100d", MODE="0666"
+#
+SUBSYSTEM=="usb", ATTRS{idVendor}=="25dd", ATTRS{idProduct}=="23b4", MODE="0666"
+KERNEL=="hidraw*", ATTRS{idVendor}=="25dd", ATTRS{idProduct}=="23b4", MODE="0666"
+#

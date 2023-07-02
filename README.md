@@ -7,13 +7,29 @@ This flatpak is created from the official release of GoSign Desktop for linux, w
 is only distributed as a [deb](https://rinnovofirma.infocert.it/gosign/download/linux/latest/) package.
 
 # Build & run
-To build and install the flatpak:
+Clone this repository:
 
 ```bash
-flatpak-builder --user --install --install-deps-from=flathub build-dir com.github.egdoc.GoSign.yml --force-clean
+git clone --resursive https://github.com/egdoc/com.github.egdoc.GoSign
 ```
 
-To run the application you can use the desktop launcher or run:
+As a prerequisite to build this flathub image you must install `flatpak-builder`.
+To build and install the flatpak you can use the build.sh wrapper
+which also installs the udev rules required for the application to
+see the business key:
+
+```bash
+./build.sh
+```
+ To uninstall the flatpak and remove the udev keys:
+
+ ```bash
+ ./build.sh -u
+ ```
+
+If you can't see the GoSign desktop launcher
+in the applications menu, just logout and log back in.
+Alternatively, you can launch GoSing by running:
 
 ```bash
 flatpak run com.github.egdoc.GoSign.yml
