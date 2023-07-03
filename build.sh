@@ -37,7 +37,7 @@ EOF
 }
 
 
-while getopts "hur" OPT; do
+while getopts "hu" OPT; do
   case "${OPT}" in
     h)
       show_help
