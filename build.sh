@@ -61,7 +61,8 @@ if [ "${UNINSTALL}" -eq 1 ]; then
   echo "Removing udev rules..." >&2
   if [ -f "${UDEV_RULES_DIR}/${UDEV_RULE}" ]; then
     sudo rm "${UDEV_RULES_DIR}/${UDEV_RULE}"
-    sudo udevadm control --reload
+    sudo udevadm control --reload-rules
+    sudo udevadm trigger
   fi
 
   if flatpak --user info com.github.egdoc.GoSign &> /dev/null; then
@@ -91,7 +92,8 @@ flatpak-builder \
 
 echo "Copying udev rules..." >&2
 sudo cp "${REPOSITORY}/${UDEV_RULE}" "${UDEV_RULES_DIR}"
-sudo udevadm control --reload
+sudo udevadm control --reload-rules
+sudo udevadm trigger
 
 cat << EOF
 
